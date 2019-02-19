@@ -41,6 +41,84 @@ WORKDIR /linux
 RUN mkdir -p /out/src
 RUN tar cJf /out/src/linux.tar.xz /linux
 
+# enable squashfs (for rootfs) and options recommended by moby's check-config.sh
+RUN ./scripts/config --file arch/arm64/configs/bcmrpi3_defconfig \
+    --enable CONFIG_SQUASHFS \
+    --enable CONFIG_NAMESPACES \
+    --enable CONFIG_NET_NS \
+    --enable CONFIG_PID_NS \
+    --enable CONFIG_IPC_NS \
+    --enable CONFIG_UTS_NS \
+    --enable CONFIG_CGROUPS \
+    --enable CONFIG_CGROUP_CPUACCT \
+    --enable CONFIG_CGROUP_DEVICE \
+    --enable CONFIG_CGROUP_FREEZER \
+    --enable CONFIG_CGROUP_SCHED \
+    --enable CONFIG_CPUSETS \
+    --enable CONFIG_MEMCG \
+    --enable CONFIG_KEYS \
+    --enable CONFIG_VETH \
+    --enable CONFIG_BRIDGE \
+    --enable CONFIG_BRIDGE_NETFILTER \
+    --enable CONFIG_NF_NAT_IPV4 \
+    --enable CONFIG_IP_NF_FILTER \
+    --enable CONFIG_IP_NF_TARGET_MASQUERADE \
+    --enable CONFIG_NETFILTER_XT_MATCH_ADDRTYPE \
+    --enable CONFIG_NETFILTER_XT_MATCH_CONNTRACK \
+    --enable CONFIG_NETFILTER_XT_MATCH_IPVS \
+    --enable CONFIG_IP_NF_NAT \
+    --enable CONFIG_NF_NAT \
+    --enable CONFIG_NF_NAT_NEEDED \
+    --enable CONFIG_POSIX_MQUEUE \
+    --enable CONFIG_USER_NS \
+    --enable CONFIG_SECCOMP \
+    --enable CONFIG_CGROUP_PIDS \
+    --enable CONFIG_MEMCG_SWAP \
+    --enable CONFIG_MEMCG_SWAP_ENABLED \
+    --enable CONFIG_BLK_CGROUP \
+    --enable CONFIG_BLK_DEV_THROTTLING \
+    --enable CONFIG_IOSCHED_CFQ \
+    --enable CONFIG_CFQ_GROUP_IOSCHED \
+    --enable CONFIG_CGROUP_PERF \
+    --enable CONFIG_CGROUP_HUGETLB \
+    --enable CONFIG_NET_CLS_CGROUP \
+    --enable CONFIG_CGROUP_NET_PRIO \
+    --enable CONFIG_CFS_BANDWIDTH \
+    --enable CONFIG_FAIR_GROUP_SCHED \
+    --enable CONFIG_RT_GROUP_SCHED \
+    --enable CONFIG_IP_NF_TARGET_REDIRECT \
+    --enable CONFIG_IP_VS \
+    --enable CONFIG_IP_VS_NFCT \
+    --enable CONFIG_IP_VS_PROTO_TCP \
+    --enable CONFIG_IP_VS_PROTO_UDP \
+    --enable CONFIG_IP_VS_RR \
+    --enable CONFIG_EXT4_FS \
+    --enable CONFIG_EXT4_FS_POSIX_ACL \
+    --enable CONFIG_EXT4_FS_SECURITY \
+    --enable CONFIG_VXLAN \
+    --enable CONFIG_CRYPTO \
+    --enable CONFIG_CRYPTO_AEAD \
+    --enable CONFIG_CRYPTO_GCM \
+    --enable CONFIG_CRYPTO_SEQIV \
+    --enable CONFIG_CRYPTO_GHASH \
+    --enable CONFIG_XFRM \
+    --module CONFIG_XFRM_USER \
+    --module CONFIG_XFRM_ALGO \
+    --module CONFIG_INET_ESP \
+    --module CONFIG_INET_XFRM_MODE_TRANSPORT \
+    --enable CONFIG_IPVLAN \
+    --enable CONFIG_MACVLAN \
+    --module CONFIG_DUMMY \
+    --enable CONFIG_NF_NAT_FTP \
+    --enable CONFIG_NF_CONNTRACK_FTP \
+    --enable CONFIG_NF_NAT_TFTP \
+    --enable CONFIG_NF_CONNTRACK_TFTP \
+    --module CONFIG_BTRFS_FS \
+    --enable CONFIG_BTRFS_FS_POSIX_ACL \
+    --enable CONFIG_BLK_DEV_DM \
+    --enable CONFIG_DM_THIN_PROVISIONING \
+    --enable CONFIG_OVERLAY_FS
+
 # Kernel config
 RUN make bcmrpi3_defconfig
 
